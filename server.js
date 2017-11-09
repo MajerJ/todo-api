@@ -7,7 +7,7 @@ var express = require('express'),
     cors = require('cors');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:admin@ds255455.mlab.com:55455/heroku_vr9rptc0', {useMongoClient: true});
+mongoose.connect('mongodb:process.env.MONGODB_URI', {useMongoClient: true});
 
 app.options('*', cors());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -21,9 +21,16 @@ app.use(function(req, res, next) {
 var routes = require('./api/routes/todoRoutes');
 routes(app);
 
-app.listen(port);
+var server = app.listen(process.env.PORT || 8080, function () {
+    var port = server.address().port;
+    console.log("App now running on port", port);
+  });
+});
 
-console.log('todo RESTful API server started on: ' + port);
+
+//app.listen(port);
+
+//console.log('todo RESTful API server started on: ' + port);
 
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'})
