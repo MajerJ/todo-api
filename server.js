@@ -7,7 +7,7 @@ var express = require('express'),
     cors = require('cors');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:admin@ds255455.mlab.com:55455/heroku_vr9rptc0', {useMongoClient: true});
+mongoose.connect('mongodb://localhost/Tododb', {useMongoClient: true});
 
 app.options('*', cors());
 app.use(bodyParser.urlencoded({extended: true}));
